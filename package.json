@@ -1,0 +1,13 @@
+{
+  "name": "calc-cli",
+  "version": "1.0.0",
+  "description": "Simple Node.js CLI calculator supporting + - * /",
+  "bin": {
+    "calc": "src/index.js"
+  },
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "author": "",
+  "license": "MIT"
+}
