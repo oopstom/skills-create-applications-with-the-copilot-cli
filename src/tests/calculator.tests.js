@@ -51,4 +51,34 @@ describe('Calculator CLI - basic operations', () => {
     expect(res.status).to.not.equal(0);
     expect(res.stderr.toLowerCase()).to.include('division by zero');
   });
+
+  it('handles decimal numbers', () => {
+    const res = runCLI(5.5, '+', 2.2);
+    expect(res.status).to.equal(0);
+    expect(res.stdout.trim()).to.equal('7.7');
+  });
+
+  it('handles negative numbers', () => {
+    const res = runCLI(-5, '*', 3);
+    expect(res.status).to.equal(0);
+    expect(res.stdout.trim()).to.equal('-15');
+  });
+
+  it('handles non-numeric inputs', () => {
+    const res = runCLI('foo', '+', 5);
+    expect(res.status).to.not.equal(0);
+    expect(res.stderr).to.include('Error: both operands must be valid numbers');
+  });
+
+  it('handles unsupported operators', () => {
+    const res = runCLI(5, '%', 2);
+    expect(res.status).to.not.equal(0);
+    expect(res.stderr).to.include('Unsupported operator');
+  });
+
+  it('handles insufficient arguments', () => {
+    const res = spawnSync('node', ['src/index.js', '1', '+'], { encoding: 'utf8' });
+    expect(res.status).to.not.equal(0);
+    expect(res.stderr).to.include('Usage: calc <num1> <operator> <num2>');
+  });
 });
